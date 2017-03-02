@@ -1,3 +1,7 @@
+" hao's vimrc
+"
+"
+"
 " vgod's vimrc
 " Tsung-Hsiang (Sean) Chang <vgod@vgod.tw>
 " Fork me on GITHUB  https://github.com/vgod/vimrc
@@ -74,9 +78,9 @@ set t_vb=
 set tm=500
 
 " TAB setting{
-   set expandtab        "replace <TAB> with spaces
-   set softtabstop=3 
-   set shiftwidth=3 
+"   set expandtab        "replace <TAB> with spaces
+   set softtabstop=4 
+   set shiftwidth=4 
 
    au FileType Makefile set noexpandtab
 "}      							
@@ -340,3 +344,17 @@ let g:gitgutter_enabled = 1
 " set ejs filetype to html
 au BufNewFile,BufRead *.ejs set filetype=html
 
+" --refresh syntax
+map <D-r> :syntax sync fromstart<CR>
+
+" --always show bookmark
+let NERDTreeShowBookmarks=1
+
+" --vim-markdown disable folding
+let g:vim_markdown_folding_disabled=1
+
+" --vim-enable fenced code block syntax highlighting
+let g:markdown_fenced_languages = ['html', 'java', 'bash=sh']
+
+" --vim-javascript
+let g:javascript_plugin_jsdoc = 1
