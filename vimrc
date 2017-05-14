@@ -78,9 +78,12 @@ set t_vb=
 set tm=500
 
 " TAB setting{
-"   set expandtab        "replace <TAB> with spaces
-   set softtabstop=4 
-   set shiftwidth=4 
+   set noexpandtab        "don't replace <TAB> with spaces
+
+    let s:tabwidth=4
+    exec 'set tabstop='    .s:tabwidth
+    exec 'set shiftwidth=' .s:tabwidth
+    exec 'set softtabstop='.s:tabwidth
 
    au FileType Makefile set noexpandtab
 "}      							
