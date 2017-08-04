@@ -100,3 +100,9 @@
 [submodule "bundle/vim-snippets"]
 	path = bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
+[submodule "bundle/vim-pug"]
+	path = bundle/vim-pug
+	url = https://github.com/digitaltoad/vim-pug.git
+[submodule "bundle/grunt.vim"]
+	path = bundle/grunt.vim
+	url = https://github.com/mklabs/grunt.vim.git
