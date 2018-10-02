@@ -361,3 +361,6 @@ let g:markdown_fenced_languages = ['html', 'java', 'bash=sh']
 
 " --vim-javascript
 let g:javascript_plugin_jsdoc = 1
+
+" --markdown special syntax
+au BufRead,BufNewFile *.markdown set filetype=markdown
