@@ -54,13 +54,13 @@
 	url = git://github.com/vim-scripts/indent-motion.git
 [submodule "bundle/ack.vim"]
 	path = bundle/ack.vim
-	url = git://github.com/mileszs/ack.vim.git
+	url = https://github.com/mileszs/ack.vim.git
 [submodule "bundle/pyflakes-vim"]
 	path = bundle/pyflakes-vim
-	url = git://github.com/MiCHiLU/pyflakes-vim.git
+	url = https://github.com/MiCHiLU/pyflakes-vim.git
 [submodule "bundle/vim-multiple-cursors"]
 	path = bundle/vim-multiple-cursors
-	url = git://github.com/terryma/vim-multiple-cursors.git
+	url = https://github.com/terryma/vim-multiple-cursors.git
 [submodule "bundle/vim-js-indent"]
 	path = bundle/vim-js-indent
 	url = https://github.com/jason0x43/vim-js-indent.git
