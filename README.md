@@ -23,17 +23,14 @@ MANUALLY INSTALL
 
         git clone git://github.com/vgod/vimrc.git ~/.vim
         cd ~/.vim
-        git submodule update --init
 
 2. Install ~/.vimrc and ~/.gvimrc
 
         ./install-vimrc.sh
 
-3. (Optional, if you want Command-T) Compile the Command-T plugin
+3. Install plugins
 
-        cd .vim/bundle/command-t/ruby/command-t
-        ruby extconf.rb
-        make
+        vim +PlugInstall +qall
 
 MANUALLY INSTALL ON WINDOWS
 ---------------------------
@@ -43,27 +40,31 @@ MANUALLY INSTALL ON WINDOWS
         cd C:\Program Files\Vim   (or your installed path to Vim)
         rmdir /s vimfiles         (This deletes your old vim configurations. If you want to keep it, use move instead of rmdir.)
         git clone git://github.com/vgod/vimrc.git vimfiles
-        git submodule update --init
 
 2. Install vimrc. Add the following line at the end of C:\Program Files\Vim\vimrc.
 
         source $VIM/vimfiles/vimrc
+
+3. Install plugins
+
+        vim +PlugInstall +qall
 
 
   
 INSTALL & UPGRADE PLUGIN BUNDLES
 --------------------------------
 
-All plugins (except vim-latex) were checked out as git submodules, 
-which can be upgraded with `git pull`. For example, to upgrade Command-T 
+Plugins are managed by [vim-plug](https://github.com/junegunn/vim-plug).
+The plugin list is in `vimrc`; downloaded plugin working trees live in
+`~/.vim/plugged` and are intentionally not tracked by git.
 
-     cd ~/.vim/bundle/command-t
-     git pull
+To install plugins:
 
-To install a new plugin as a git submoudle, type the following commands.
+     vim +PlugInstall +qall
 
-     cd ~/.vim
-     git submodule add [GIT-REPOSITORY-URL] bundle/[PLUGIN-NAME]
+To update plugins:
+
+     vim +PlugUpdate +qall
 
 HOW TO USE
 ----------
@@ -73,50 +74,37 @@ see the "USEFUL SHORTCUTS" section in vimrc to learn my shortcuts.
 PLUGINS
 -------
 
-* [Pathogen](http://www.vim.org/scripts/script.php?script_id=2332): Pathogen let us install a plugin as a bundle in ~/.vim/bundle seprately.
+* [vim-plug](https://github.com/junegunn/vim-plug): Plugin manager.
 
-* [Nerd Tree](http://www.vim.org/scripts/script.php?script_id=1658): A tree explorer plugin for navigating the filesystem.
+* [Nerd Tree](https://github.com/preservim/nerdtree): A tree explorer plugin for navigating the filesystem.
 
   Useful commands:   
     `:Bookmark [name]` - bookmark any directory as name   
     `:NERDTree [name]` - open the bookmark [name] in Nerd Tree   
 
-* [AutoClose](http://www.vim.org/scripts/script.php?script_id=1849):  Inserts matching bracket, paren, brace or quote.
+* [fzf.vim](https://github.com/junegunn/fzf.vim): File and text search through fzf.
 
-* [vim-multiple-cursors](https://github.com/terryma/vim-multiple-cursors): True Sublime Text style multiple selections for Vim.
+  Useful commands:
+    `:Files` opens the file picker.
+    `:Rg` searches text with ripgrep when available.
+
+* [lexima.vim](https://github.com/cohama/lexima.vim): Inserts matching bracket, paren, brace or quote.
+
+* [vim-visual-multi](https://github.com/mg979/vim-visual-multi): Multiple selections for Vim.
 
 * [vim-surround](https://github.com/tpope/vim-surround/blob/master/doc/surround.txt): deal with pairs of surroundings.
 
-* [matchit](http://www.vim.org/scripts/script.php?script_id=39): extended % matching for HTML, LaTeX, and many other languages. 
+* [vim-commentary](https://github.com/tpope/vim-commentary): Comment and uncomment code with Vim motions.
 
-* [xmledit](http://www.vim.org/scripts/script.php?script_id=301): XML/HTML tags will be completed automatically.
+* [vim-fugitive](https://github.com/tpope/vim-fugitive): Git integration.
 
-* [Command-T](https://github.com/wincent/Command-T): open and navigate between files with `cmd-t`.
-  
-* [SuperTab](http://www.vim.org/scripts/script.php?script_id=1643): Do all your insert-mode completion with Tab.
+  Useful commands:
+    `:Git` opens git status.
+    `:Gdiffsplit` opens a git diff split.
 
-* [snipMate](http://www.vim.org/scripts/script.php?script_id=2540): TextMate-style snippets for Vim
+* [vim-gitgutter](https://github.com/airblade/vim-gitgutter): Shows changed lines in the sign column.
 
-  `:help snipMate` to see more info.
-
-* [YankRing](http://www.vim.org/scripts/script.php?script_id=1234): Maintains a history of previous yanks, changes and deletes 
-  
-  `:help yankring` to see more info.
-
-* [VisIncr](http://www.vim.org/scripts/script.php?script_id=670): Produce increasing/decreasing columns of numbers, dates, or daynames.
-  
-* [Cute Error Marker](http://www.vim.org/scripts/script.php?script_id=2653): showing error and warning icons on line.
-  
-   MacVim users need to enable "Use experimental renderer" to see
-   graphical icons.
-
-* [vim-latex](http://vim-latex.sourceforge.net/): Latex support.
-
-* [OmniCppComplete](http://www.vim.org/scripts/script.php?script_id=1520): C/C++ omni-completion with ctags database.
-
-* [JavaComplete](http://www.vim.org/scripts/script.php?script_id=1785): Java Omni-completion.
-
-* [EasyMotion](https://github.com/Lokaltog/vim-easymotion): An easy way to jump to a word.
+* [EasyMotion](https://github.com/easymotion/vim-easymotion): An easy way to jump to a word.
 
   Useful commands:   
     `,,w` forward EasyMotion   
@@ -127,30 +115,33 @@ PLUGINS
   Useful commands:    
     `F7` toggles the TagBar
 
-* [Indent Motion](https://github.com/vim-scripts/indent-motion): Vim motions to the start and end of the current indentation-delimited block 
+* [ALE](https://github.com/dense-analysis/ale): Asynchronous linting and fixer integration.
 
-  Useful commands:    
-    `,]` move to the end of the current indentation-delimited block (very useful in Python and CoffeeScript)
-    `,[` move to the beginning of the current indentation-delimited block (very useful in Python and CoffeeScript)
+* [coc.nvim](https://github.com/neoclide/coc.nvim): Node.js based completion and language server client for Vim.
 
-* [Zen Coding](https://github.com/mattn/zencoding-vim): expanding abbreviation like zen-coding.
+* [vim-javascript](https://github.com/pangloss/vim-javascript): JavaScript syntax.
+
+* [typescript-vim](https://github.com/leafgarland/typescript-vim): TypeScript syntax.
+
+* [vim-jsx-typescript](https://github.com/peitalin/vim-jsx-typescript): TSX syntax.
+
+* [emmet-vim](https://github.com/mattn/emmet-vim): expanding abbreviation like Emmet.
 
   Useful commands:   
-    `<ctrl-y>,` expand zen-coding abbreviation.
+    `<ctrl-y>,` expand Emmet abbreviation.
 
-* [ack.vim](https://github.com/mileszs/ack.vim): run ack (a better grep) from vim, and shows the results in a split window.
+* [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim): Markdown preview for Vim and Neovim.
 
-  `:Ack [options] {pattern} [{directory}]`
-
-* [Git Gutter](https://github.com/airblade/vim-gitgutter): shows a git diff in the 'gutter' (sign column). It shows whether each line has been added, modified, and where lines have been removed.
+  Useful commands:
+    `:MarkdownPreview` opens preview.
+    `:MarkdownPreviewStop` stops preview.
 
 Language specific supports
 --------------------------
 
-* Latex: Read `:help latex-suite.txt`
 * Restructured Text: `ctrl-u 1~5` inserts Part/Chapter/Section headers
-* HTML, Javascript, CoffeeScript, Python, CSS, C, C++, Java: use `TAB` to do omni-completion.
-* HTML/XML: End tags are automatically completed after typing a begin tag. (Typing > twice pushes the end tag to a new line.)
+* HTML, JavaScript, TypeScript, Python, CSS, C, C++, Java: use Vim omni-completion or coc.nvim when a language server is configured.
+* HTML/XML: End tags and pairs are completed by lexima.vim and emmet-vim.
 
 Other good references
 ---------------------
@@ -179,4 +170,3 @@ License
 -------
 
 This vimrc project is released under [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US).
-

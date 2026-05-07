@@ -12,7 +12,7 @@ if has("gui_macvim")
 
    " disable the original Cmd-T (open new tab)
    macmenu &File.New\ Tab key=<nop>
-   " map Cmd-T to the CommandT plugin
-   map <D-t> :CommandT<CR>
+   " map Cmd-T to fzf.vim file search
+   map <D-t> :Files<CR>
    set gfn=Osaka-Mono:h16
 endif

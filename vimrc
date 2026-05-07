@@ -4,20 +4,46 @@
 
 " read https://github.com/vgod/vimrc/blob/master/README.md for more info
 
+set nocompatible	" not compatible with the old-fashion vi mode
 
-" For pathogen.vim: auto load all plugins in .vim/bundle
+" Plugin management
+"
+" vim-plug keeps plugin source outside git history.  This repository tracks the
+" plugin list and personal settings; the plugin working trees are recreated by
+" :PlugInstall when needed.
 
-let g:pathogen_disabled = []
-if !has('gui_running')
-   call add(g:pathogen_disabled, 'powerline')
-endif
+call plug#begin('~/.vim/plugged')
 
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+" Navigation and editing
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'cohama/lexima.vim'
+Plug 'mg979/vim-visual-multi', { 'branch': 'master' }
+
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Language support
+Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+
+" Web and Markdown authoring
+Plug 'mattn/emmet-vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
+
+call plug#end()
 
 " General Settings
 
-set nocompatible	" not compatible with the old-fashion vi mode
 set bs=2		" allow backspacing over everything in insert mode
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
@@ -272,22 +298,9 @@ endfun
 "--------------------------------------------------------------------------- 
 
 
-" ------- vim-latex - many latex shortcuts and snippets {
-
-" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
-" can be called correctly.
-set shellslash
-set grepprg=grep\ -nH\ $*
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
-
-"}
-
-
-" --- AutoClose - Inserts matching bracket, paren, brace or quote 
-" fixed the arrow key problems caused by AutoClose
+" --- Terminal arrow keys
+" Older terminal mappings are kept because some non-GUI Vim sessions still
+" report cursor keys through these escape sequences.
 if !has("gui_running")	
    set term=linux
    imap OA <ESC>ki
@@ -303,15 +316,6 @@ endif
 
 
 
-" --- Command-T
-let g:CommandTMaxHeight = 15
-
-" --- SuperTab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
-
-
 " --- EasyMotion
 "let g:EasyMotion_leader_key = '<Leader>m' " default is <Leader>w
 hi link EasyMotionTarget ErrorMsg
@@ -324,22 +328,16 @@ nnoremap <silent> <F7> :TagbarToggle<CR>
 " set focus to TagBar when opening it
 let g:tagbar_autofocus = 1
 
-" --- PowerLine
-" let g:Powerline_symbols = 'fancy' " require fontpatcher
-"
-
-" --- SnipMate
-let g:snipMateAllowMatchingDot = 0
-
-" --- coffee-script
-au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
-
 " --- vim-gitgutter
 let g:gitgutter_enabled = 1
+
+" --- markdown-preview.nvim
+" Keep the old MacVim behavior: opening a Markdown buffer starts the preview.
+let g:mkdp_auto_start = 1
+let g:mkdp_auto_close = 1
 
 " set ejs filetype to html
 au BufNewFile,BufRead *.ejs set filetype=html
 
 let NERDTreeShowBookmarks=1
 set autoindent noexpandtab
-
