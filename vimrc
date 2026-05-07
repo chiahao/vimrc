@@ -340,3 +340,6 @@ let g:gitgutter_enabled = 1
 " set ejs filetype to html
 au BufNewFile,BufRead *.ejs set filetype=html
 
+let NERDTreeShowBookmarks=1
+set autoindent noexpandtab
+
