@@ -3,5 +3,6 @@ if has("gui_macvim")
    macmenu &File.New\ Tab key=<nop>
    " map Cmd-T to the CommandT plugin
    map <D-t> :CommandT<CR>
+   set gfn=Osaka-Mono:h16
 endif
 
