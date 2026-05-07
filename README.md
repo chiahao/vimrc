@@ -1,19 +1,39 @@
-vgod's vimrc
-============
-Author: Tsung-Hsiang (Sean) Chang <vgod@vgod.tw>
+chiahao's MacVim Configuration
+==============================
 
-Fork me on GITHUB  https://github.com/vgod/vimrc.
+Personal Vim and MacVim configuration.
+
+This configuration was originally based on
+[vgod/vimrc](https://github.com/vgod/vimrc) by Tsung-Hsiang (Sean) Chang. It
+has since been heavily rewritten for personal MacVim use, including a migration
+from pathogen and git submodules to vim-plug.
+
+Current personal changes
+------------------------
+
+* Plugin management now uses vim-plug. Plugin working trees are installed under
+  `~/.vim/plugged` and are not tracked by git.
+* MacVim launched from Finder gets the nvm default Node.js path from `gvimrc`,
+  so Node-based plugins can still run after removing the Homebrew Node.js
+  formula.
+* `Cmd-T` now opens `fzf.vim` file search with `:Files` instead of the old
+  Command-T plugin.
+* Markdown preview now uses a personal fork of `markdown-preview.nvim`, adding a
+  setting that disables idle `CursorHold` refresh while keeping cursor movement
+  sync.
+* Markdown preview uses a custom highlight CSS based on markdown-preview.nvim's
+  bundled `highlight.css`. It only changes diff add/delete text colors, keeping
+  the original pink and green backgrounds intact. It intentionally uses
+  `mkdp_highlight_css` instead of `mkdp_markdown_css` so the normal Markdown
+  page layout and code block backgrounds are not replaced.
 
 ONE-STEP INSTALL
 ----------------
 
-Use curl (for Mac OS X):
+After this repository is published, set `VIMRC_REPO_URL` to the repository URL
+and run:
 
-     curl -o - https://raw.githubusercontent.com/vgod/vimrc/master/auto-install.sh | sh
-
-or wget (for most UNIX platforms):
-
-     wget -O - https://raw.githubusercontent.com/vgod/vimrc/master/auto-install.sh | sh
+     VIMRC_REPO_URL=https://github.com/chiahao/vimrc.git ./auto-install.sh
 
 
 MANUALLY INSTALL
@@ -21,7 +41,7 @@ MANUALLY INSTALL
 
 1. Check out from github
 
-        git clone git://github.com/vgod/vimrc.git ~/.vim
+        git clone <this-repository-url> ~/.vim
         cd ~/.vim
 
 2. Install ~/.vimrc and ~/.gvimrc
@@ -35,11 +55,15 @@ MANUALLY INSTALL
 MANUALLY INSTALL ON WINDOWS
 ---------------------------
 
+Windows is not the primary target of this configuration. If you still want to
+use it on Windows, install Vim first and source `vimrc` from your Vim startup
+file.
+
 1. Check out from github
 
         cd C:\Program Files\Vim   (or your installed path to Vim)
         rmdir /s vimfiles         (This deletes your old vim configurations. If you want to keep it, use move instead of rmdir.)
-        git clone git://github.com/vgod/vimrc.git vimfiles
+        git clone <this-repository-url> vimfiles
 
 2. Install vimrc. Add the following line at the end of C:\Program Files\Vim\vimrc.
 
@@ -130,7 +154,7 @@ PLUGINS
   Useful commands:   
     `<ctrl-y>,` expand Emmet abbreviation.
 
-* [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim): Markdown preview for Vim and Neovim.
+* [markdown-preview.nvim](https://github.com/chiahao/markdown-preview.nvim): Markdown preview for Vim and Neovim.
 
   Useful commands:
     `:MarkdownPreview` opens preview.
@@ -147,14 +171,13 @@ Other good references
 ---------------------
 
 * http://amix.dk/vim/vimrc.html
-* http://spf13.com/post/perfect-vimrc-vim-config-file
 
 
 Vim Visual Cheat Sheet
 ----------------------
 
-I've compiled and plotted a Vim Cheat Sheet for beginners. 
-Welcome to download and learn Vim with it.
+The following Vim cheat sheets are from the original vgod/vimrc project and
+remain useful for Vim built-in motions and commands.
 
 ![My Vim Visual Cheat Sheet](http://people.csail.mit.edu/vgod/vim/vim-cheat-sheet-en.png "My Vim Visual Cheat Sheet")
 
@@ -169,4 +192,11 @@ These Vim Visual Cheat Sheets are released under [Creative Commons Attribution-S
 License
 -------
 
-This vimrc project is released under [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US).
+This configuration is based on vgod/vimrc, which is released under
+[Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US).
+
+Credits
+-------
+
+Original project: [vgod/vimrc](https://github.com/vgod/vimrc) by
+Tsung-Hsiang (Sean) Chang.

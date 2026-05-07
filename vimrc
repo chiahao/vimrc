@@ -1,8 +1,8 @@
-" vgod's vimrc
-" Tsung-Hsiang (Sean) Chang <vgod@vgod.tw>
-" Fork me on GITHUB  https://github.com/vgod/vimrc
-
-" read https://github.com/vgod/vimrc/blob/master/README.md for more info
+" chiahao's MacVim configuration
+"
+" Originally based on vgod/vimrc by Tsung-Hsiang (Sean) Chang.
+" Plugin management and active plugin choices have since been rewritten for
+" personal MacVim use.
 
 set nocompatible	" not compatible with the old-fashion vi mode
 
@@ -38,7 +38,7 @@ Plug 'peitalin/vim-jsx-typescript'
 
 " Web and Markdown authoring
 Plug 'mattn/emmet-vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
+Plug 'chiahao/markdown-preview.nvim', { 'as': 'chiahao-markdown-preview.nvim', 'branch': 'add-cursor-hold-refresh-option', 'do': 'cd app && npm install' }
 
 call plug#end()
 
@@ -56,16 +56,31 @@ filetype on           " Enable filetype detection
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
-
-" auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
-
+augroup ChiahaoVimrc
+  autocmd!
+  " Auto reload vimrc when editing it. Keep this in a private group so sourcing
+  " vimrc repeatedly does not duplicate the command or clear plugin autocmds.
+  autocmd BufWritePost .vimrc source ~/.vimrc
+  autocmd FileType Makefile setlocal noexpandtab
+  autocmd FileType c,cpp,cc setlocal cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^-1s,:0,=s,g0,h1s,p2,t0,+2,(2,)20,*30
+  autocmd BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType c setlocal omnifunc=ccomplete#Complete
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
+  autocmd FileType * if &l:omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
+  autocmd BufNewFile,BufRead *.scss setlocal filetype=scss.css
+  autocmd BufNewFile,BufRead *.sass setlocal filetype=sass.css
+  autocmd BufNewFile,BufRead *.ejs setlocal filetype=html
+augroup END
 
 syntax on		" syntax highlight
 set hlsearch		" search highlighting
 
 if has("gui_running")	" GUI color and font settings
-  set guifont=Osaka-Mono:h20
   set background=dark 
   set t_Co=256          " 256 color mode
   set cursorline        " highlight current line
@@ -103,8 +118,6 @@ set tm=500
    set expandtab        "replace <TAB> with spaces
    set softtabstop=3 
    set shiftwidth=3 
-
-   au FileType Makefile set noexpandtab
 "}      							
 
 " status line {
@@ -130,20 +143,22 @@ endfunction
 "}
 
 
-" C/C++ specific settings
-autocmd FileType c,cpp,cc  set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^-1s,:0,=s,g0,h1s,p2,t0,+2,(2,)20,*30
-
 "Restore cursor to file position in previous editing session
 set viminfo='10,\"100,:20,%,n~/.viminfo
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
 "--------------------------------------------------------------------------- 
 " Tip #382: Search for <cword> and replace with input() in all open buffers 
 "--------------------------------------------------------------------------- 
 fun! Replace() 
-    let s:word = input("Replace " . expand('<cword>') . " with:") 
-    :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/ge' 
-    :unlet! s:word 
+    let l:target = expand('<cword>')
+    if empty(l:target)
+        return
+    endif
+
+    let l:replacement = input("Replace " . l:target . " with:")
+    let l:pattern = '\V\<' . escape(l:target, '\') . '\>'
+    let l:safe_replacement = escape(l:replacement, '\&@')
+    exe 'bufdo! %s@' . l:pattern . '@' . l:safe_replacement . '@ge'
 endfun 
 
 
@@ -245,27 +260,12 @@ endfun
 
 
 " Enable omni completion. (Ctrl-X Ctrl-O)
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType java set omnifunc=javacomplete#Complete
-
-" use syntax complete if nothing else available
-if has("autocmd") && exists("+omnifunc")
-  autocmd Filetype *
-              \	if &omnifunc == "" |
-              \		setlocal omnifunc=syntaxcomplete#Complete |
-              \	endif
-endif
+" FileType autocmds are defined in augroup ChiahaoVimrc above.
 
 set cot-=preview "disable doc preview in omnicomplete
 
 " make CSS omnicompletion work for SASS and SCSS
-autocmd BufNewFile,BufRead *.scss             set ft=scss.css
-autocmd BufNewFile,BufRead *.sass             set ft=sass.css
+" FileType autocmds are defined in augroup ChiahaoVimrc above.
 
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS
@@ -335,9 +335,13 @@ let g:gitgutter_enabled = 1
 " Keep the old MacVim behavior: opening a Markdown buffer starts the preview.
 let g:mkdp_auto_start = 1
 let g:mkdp_auto_close = 1
+let g:mkdp_disable_cursor_hold_refresh = 1
+" Use highlight CSS instead of markdown CSS so only syntax colors are replaced.
+" markdown CSS changes the whole preview page and can alter normal code block
+" backgrounds; this file only patches diff add/delete foreground colors.
+let g:mkdp_highlight_css = expand('~/.vim/markdown-preview-highlight.css')
 
-" set ejs filetype to html
-au BufNewFile,BufRead *.ejs set filetype=html
+" set ejs filetype to html in augroup ChiahaoVimrc.
 
 let NERDTreeShowBookmarks=1
 set autoindent noexpandtab

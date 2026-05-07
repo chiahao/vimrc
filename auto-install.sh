@@ -1,5 +1,6 @@
 #!/bin/sh
 VIMHOME=~/.vim
+VIMRC_REPO_URL=${VIMRC_REPO_URL:-}
 
 warn() {
     echo "$1" >&2
@@ -11,16 +12,15 @@ die() {
 }
 
 [ -e "$VIMHOME/vimrc" ] && die "$VIMHOME/vimrc already exists."
-[ -e "~/.vim" ] && die "~/.vim already exists."
-[ -e "~/.vimrc" ] && die "~/.vimrc already exists."
+[ -e "$HOME/.vim" ] && die "$HOME/.vim already exists."
+[ -e "$HOME/.vimrc" ] && die "$HOME/.vimrc already exists."
+[ -z "$VIMRC_REPO_URL" ] && die "Set VIMRC_REPO_URL to this repository URL before running auto-install.sh."
 
-git clone git://github.com/vgod/vimrc.git "$VIMHOME"
+git clone "$VIMRC_REPO_URL" "$VIMHOME"
 cd "$VIMHOME"
-git submodule update --init
 
 ./install-vimrc.sh
 
-cd bundle/command-t/ruby/command-t
-(ruby extconf.rb && make) || warn "Can't compile Command-T."
+vim +PlugInstall +qall || warn "Can't install Vim plugins."
 
-echo "vgod's vimrc is installed."
+echo "chiahao's MacVim configuration is installed."
