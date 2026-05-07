@@ -94,12 +94,15 @@
 [submodule "bundle/vim-multiple-cursors"]
 	path = bundle/vim-multiple-cursors
 	url = git://github.com/terryma/vim-multiple-cursors.git
-[submodule "bundle/vim-ipython"]
-	path = bundle/vim-ipython
-	url = git@github.com:ivanov/vim-ipython.git
 [submodule "bundle/typescript-vim"]
 	path = bundle/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
 [submodule "bundle/vim-js-indent"]
 	path = bundle/vim-js-indent
 	url = https://github.com/jason0x43/vim-js-indent.git
+[submodule "bundle/vim-ipython"]
+	path = bundle/vim-ipython
+	url = http://github.com/ivanov/vim-ipython
+[submodule "bundle/vim-instant-markdown"]
+	path = bundle/vim-instant-markdown
+	url = https://github.com/instant-markdown/vim-instant-markdown
