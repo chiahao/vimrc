@@ -30,10 +30,18 @@ Current personal changes
 ONE-STEP INSTALL
 ----------------
 
-After this repository is published, set `VIMRC_REPO_URL` to the repository URL
-and run:
+On a clean machine, download `auto-install.sh`, set `VIMRC_REPO_URL` to this
+repository URL, and run it:
 
      VIMRC_REPO_URL=https://github.com/chiahao/vimrc.git ./auto-install.sh
+
+If this repository is already checked out at `~/.vim`, run:
+
+     ./auto-install.sh
+
+The `VIMRC_REPO_URL=... ./auto-install.sh` syntax works in both zsh and sh. If
+it fails, the usual cause is that `~/.vim` already exists and is not this
+checkout.
 
 
 MANUALLY INSTALL
